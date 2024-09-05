@@ -156,7 +156,7 @@
         <name>PermissionSet</name>
     </types>
     <types>
-        <members>connectsocial__Message_Template__c.Edit_Template</members>
+        <members>Message_Template__c.Edit_Template</members>
         <name>QuickAction</name>
     </types>
     <types>
