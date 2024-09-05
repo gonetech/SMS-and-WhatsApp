@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<project name="SFDC Deployment" default="deployUnpackaged" basedir="." xmlns:sf="antlib:com.salesforce">
+
+    <!-- Task definition for Salesforce Ant tasks -->
+    <taskdef resource="com/salesforce/antlib.xml" uri="antlib:com.salesforce">
+        <classpath>
+            <pathelement location="lib/ant-salesforce.jar"/>
+        </classpath>
+    </taskdef>
+
+    <!-- Load properties file -->
+    <property file="build.properties"/>
+
+    <!-- Override properties with command line arguments if provided -->
+    <property name="sf.username" value="${sf.username}"/>
+    <property name="sf.password" value="${sf.password}"/>
+    <property name="sf.serverurl" value="${sf.serverurl}"/>
+    <property name="sf.deployRoot" value="${sf.deployRoot}"/>
+    
+    <!-- Define the target for deployment -->
+    <target name="deploy">
+        <!-- Using the Salesforce deploy task -->
+        <sf:deploy 
+            username="${sf.username}" 
+            password="${sf.password}" 
+            serverurl="${sf.serverurl}"
+            deployRoot="${sf.deployRoot}"/>
+    </target>
+
+</project>
