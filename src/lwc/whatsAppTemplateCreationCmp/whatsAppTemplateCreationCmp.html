@@ -1,0 +1,135 @@
+<template>
+	<lightning-card title={cardTitle}>
+			<lightning-spinner size="medium" if:true={isLoading}></lightning-spinner>
+		<lightning-layout multiple-rows>
+			<lightning-layout-item size="6" padding="around-medium">
+					<lightning-input type="text" label="Template Name" onchange={handleChange} data-name="templateName" value={templateData.templateName}></lightning-input>
+			</lightning-layout-item>
+			<lightning-layout-item size="6" padding="around-small">
+				<lightning-combobox
+														name="channel"
+														label="Channel"
+														value={templateData.channel}
+														placeholder="Select Progress"
+														options={channelOptions}
+														data-name="channel"
+														onchange={handleChange} ></lightning-combobox>
+			</lightning-layout-item>
+			<lightning-layout-item size="6" padding="around-medium">
+					<lightning-combobox
+															name="objectName"
+															label="Object Name"
+															value={templateData.objectName}
+															placeholder="Select Progress"
+															options={objectOptions}
+															data-name="objectName"
+															onchange={handleChange} ></lightning-combobox>
+			</lightning-layout-item>
+			<lightning-layout-item size="12" padding="around-medium" if:true={isWhatsApp}>
+				<div style="background: #F7F7F7; border-radius: 8px; border: 1px #EFEFEF solid;padding:20px;padding-top:14px;">
+					<div style="color: black; font-size: 18px; font-weight: 700; word-wrap: break-word">Header</div>
+					<div style="color: #222222; font-size: 12px; word-wrap: break-word;padding-top:2px; display: flex;">Add a title or choose which type of media you’ll use for this header.
+						<lightning-helptext content="Please note: The file you upload here is a placeholder and will be used for preview purposes only. When sending the template to customers, make sure to include the actual media file. The maximum allowed size for video files is 2MB." style="margin-left: 10px;"></lightning-helptext>
+					</div>
+						<lightning-layout>
+							<lightning-layout-item size="2">
+								<lightning-combobox
+																								name="header"
+																								label="Header"
+																								style="padding-top:10px;"
+																								variant="label-hidden"
+																								value={templateData.header}
+																								placeholder="Select Progress"
+																								options={headerOptions}
+																								data-name="header"
+																								onchange={handleChange} ></lightning-combobox>
+							</lightning-layout-item>
+							<lightning-layout-item size="10">
+									<div if:true={isShowHeaderText}>
+											<lightning-input style="padding-top:10px;padding-left:20px;" type="text" variant="label-hidden" label="Header Text" data-name="headerText" onchange={handleChange} value={templateData.headerText}></lightning-input>
+									</div>
+									<div if:true={isShowHeaderMedia}>
+											<lightning-input 
+												style="padding-top:10px; padding-left:20px;" 
+												type="file" 
+												variant="label-hidden" 
+												label="Upload File" 
+												onchange={handleFilesChange}											
+											></lightning-input>
+											<template if:true={fileSizeWarning}>
+												<p class="slds-text-color_error slds-p-horizontal_small">{fileSizeWarning}</p>
+											</template>
+											<template if:true={fileName}>
+												<h2>Uploaded File: <b>{fileName}</b></h2>
+											</template>
+											</div>
+							</lightning-layout-item>
+						</lightning-layout>
+					</div>
+			</lightning-layout-item>
+			<lightning-layout-item size="12" padding="around-medium">
+				<div style="background: #F7F7F7; border-radius: 8px; border: 1px #EFEFEF solid;padding:20px;padding-top:14px;">
+					<div style="color: black; font-size: 18px; font-weight: 700; word-wrap: break-word">Body</div>
+					<div style="color: #222222; font-size: 12px; word-wrap: break-word;padding-top:2px;">Enter the text for your message in the language that you've selected.</div>
+
+					<div style="padding-top:10px;">
+						<lightning-textarea name="Body Text" variant="label-hidden" label="Body Text" data-name="bodyText" onchange={handleChange} value={templateData.bodyText}></lightning-textarea>
+						<div style="padding-top:10px; text-align: end;">
+								<lightning-button-menu alternative-text="Show menu" label="Merge Field" onselect={handleMenuSelect}>
+										<template for:each={fieldOptions} for:item="fld">
+												<lightning-menu-item value={fld.value} label={fld.label} key={fld.value}></lightning-menu-item>
+										</template>
+								</lightning-button-menu>
+						</div>
+					</div>
+				</div>
+			</lightning-layout-item>
+			<lightning-layout-item size="12" padding="around-medium" if:true={isWhatsApp}>
+				<div style="background: #F7F7F7; border-radius: 8px; border: 1px #EFEFEF solid;padding:20px;padding-top:14px;">
+					<div style="color: black; font-size: 18px; font-weight: 700; word-wrap: break-word">Footer</div>
+					<div style="color: #222222; font-size: 12px; word-wrap: break-word;padding-top:2px;">Add a short line of text to the bottom of your message template.</div>
+
+					<div style="padding-top:10px;">
+							<lightning-input variant="label-hidden" type="text" label="Footer Text" data-name="footerText" onchange={handleChange} value={templateData.footerText}></lightning-input>
+					</div>
+				</div>
+			</lightning-layout-item>
+			<lightning-layout-item size="12" padding="around-medium" if:true={isWhatsApp}>
+
+				<div style="background: #F7F7F7; border-radius: 8px; border: 1px #EFEFEF solid;padding:20px;padding-top:14px;">
+					<div style="color: black; font-size: 18px; font-weight: 700; word-wrap: break-word">Buttons</div>
+					<div style="color: #222222; font-size: 12px; word-wrap: break-word;padding-top:2px;">Create buttons that let customers respond to your message or take action.</div>
+					<lightning-button-menu alternative-text="Show menu" label="Add a button" onselect={handleButtonMenuSelect} style="padding-top:10px;">
+							<lightning-menu-subheader label="Quick Reply Buttons"></lightning-menu-subheader>
+							<lightning-menu-item value="custom" label="Custom"></lightning-menu-item>
+							<lightning-menu-subheader label="Call to action Buttons"></lightning-menu-subheader>
+							<lightning-menu-item value="website" label="Visit website"></lightning-menu-item>
+							<lightning-menu-item value="phoneNumber" label="Call Phone Number"></lightning-menu-item>
+							<lightning-menu-item value="offerCode" label="Copy offer code"></lightning-menu-item>
+					</lightning-button-menu>
+					<div style="padding-top:25px;" if:true={isShowButtons}>
+						<div if:true={isShowQuickReply}>
+							<div style="color: black; font-size: 16px; font-weight: 700; word-wrap: break-word;">Quick reply</div>
+								<template for:each={templateData.buttons} for:item="button" for:index="indx">
+										<div if:true={button.isQuickReply} key={button.text} style="padding-top:10px;">
+												<c-whats-app-template-button-cmp button-data={button} indx={indx} onbuttonchange={handleChangeButtonText}></c-whats-app-template-button-cmp>
+										</div>
+								</template>
+							</div>
+							<div if:true={isShowCalltoAction} style="padding-top:20px;">
+									<div style="color: black; font-size: 16px; font-weight: 700; word-wrap: break-word;">Call to action</div>
+									<template for:each={templateData.buttons} for:item="button" for:index="indx">
+											<div if:false={button.isQuickReply} key={button.text} style="padding-top:10px;">
+													<c-whats-app-template-button-cmp button-data={button} indx={indx} onbuttonchange={handleChangeButtonText}></c-whats-app-template-button-cmp>
+											</div>												
+									</template>
+							</div>
+						</div>
+					</div>
+				</lightning-layout-item>
+		</lightning-layout>
+		<div slot="footer">
+				<lightning-button label="Save" onclick={handleSave}></lightning-button>
+		</div>
+	</lightning-card>
+</template>

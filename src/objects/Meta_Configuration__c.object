@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customSettingsType>Hierarchy</customSettingsType>
+    <description>Configure the Meta API Credentials here to send WhatsApp Messages</description>
+    <enableFeeds>false</enableFeeds>
+    <fields>
+        <fullName>Active__c</fullName>
+        <defaultValue>false</defaultValue>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>Active</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>App_Secret_key__c</fullName>
+        <deprecated>false</deprecated>
+        <description>The App Secret Key of your meta Developer App</description>
+        <externalId>false</externalId>
+        <label>App Secret key</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Application_Id__c</fullName>
+        <deprecated>false</deprecated>
+        <description>The Application Id of your Meta App</description>
+        <externalId>false</externalId>
+        <label>Application Id</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Auth_Token__c</fullName>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>Auth Token</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>Channel__c</fullName>
+        <deprecated>false</deprecated>
+        <description>The Channel will be Either &apos;SMS&apos; or &apos;WhatsApp&apos;</description>
+        <externalId>false</externalId>
+        <label>Channel</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Phone_Number_Id__c</fullName>
+        <deprecated>false</deprecated>
+        <description>The Phone number Id in your meta Developer App</description>
+        <externalId>false</externalId>
+        <label>Phone Number Id</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Service_Provider_Name__c</fullName>
+        <deprecated>false</deprecated>
+        <description>The Name of your Service Provider (Eg:- Twilio, Meta)</description>
+        <externalId>false</externalId>
+        <label>Service Provider Name</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>WhatsApp_Business_Id__c</fullName>
+        <deprecated>false</deprecated>
+        <description>The WhatsApp Business Id of your WhatsApp business Account shown in your Meta Developer App</description>
+        <externalId>false</externalId>
+        <label>WhatsApp Business Id</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <label>Meta Configuration</label>
+    <visibility>Protected</visibility>
+</CustomObject>

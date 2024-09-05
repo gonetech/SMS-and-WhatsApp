@@ -1,0 +1,615 @@
+:host{
+		icon-size: 55px;
+}
+
+.scrollable-container::-webkit-scrollbar {
+		width: 12px; 
+		height: 6px; 
+}
+
+.scrollable-container::-webkit-scrollbar-track {
+		background: white; 
+}
+
+
+.scrollable-container::-webkit-scrollbar-thumb {
+		background: rgb(193, 193, 193); 
+		border-radius: 12px; 
+}
+
+.scrollable-container::-webkit-scrollbar-thumb:hover {
+		background: rgb(120, 120, 120); 
+}
+
+.sticky-header {
+    position: sticky;
+    top: 5%;
+    background-color: #d3d3d3;
+    z-index: 1;
+    padding: 4px;
+    font-size: 12px;
+    font-weight: 400;
+    text-align: center;
+    width: 15%;
+    border-radius: 5px;
+    border-bottom: 1px solid #d9d9d9;
+    margin: auto;
+}
+
+
+.scrollable-container {
+    overflow-y: auto;
+    flex-direction: column;
+    height: 45vh;
+    position: relative;
+	/* background: 
+        linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)),whatsAppBgURL; */
+    /* background: 
+        linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)),
+        url(https://user-images.githubusercontent.com/15075759/28719144-86dc0f70-73b1-11e7-911d-60d70fcded21.png); */
+}
+
+
+.custom-card{
+		width: 100%;
+}
+
+.chat-area{
+		min-height: 30vh;
+		padding: 0px 10px 0px 10px;
+}
+
+.slds-truncate-wrap {
+    white-space: normal;
+    word-wrap: break-word;
+}
+
+.slds-chat-list{
+	margin-bottom: 15px;
+}
+
+.start-convo{
+		font-size: 16px;
+		color: #999;
+		text-align: center;
+		padding: 20px;
+}
+
+
+.slds-chat-message__text_outbound {
+		margin-left: auto;
+		background-color: #00A1E029;
+		margin-top: 8px;
+		color: #000;
+		font-weight: 400;
+}
+
+.scheduled-message{
+		margin-left: auto;
+		background-color: white;
+		color: #000;
+		font-weight: 400;
+		border: 1px solid black ;
+		padding: 10px;
+
+}
+.scheduled-msg-body{
+		display: flex; 
+		justify-content: flex-end; 
+		align-items: center;
+		font-weight: 500;
+}
+
+.slds-chat-listitem.scheduled-message .slds-chat-message__text_outbound {
+		background-color: transparent; 
+		border: 1px solid rgba(0, 161, 224, 1);
+		padding: 8px; 
+}
+
+.slds-chat-listitem.scheduled-message .slds-chat-message__meta .sms-icon {
+		color: rgba(0, 161, 224, 1); 
+		font-size: 20px; 
+		margin-left: auto; 
+}
+
+.slds-chat-listitem.scheduled-message:hover {
+		background-color: transparent; 
+}
+.slds-chat-message__text_inbound{
+
+		color: #000;
+		font-weight: 400;
+		margin-top: 8px;
+
+}
+
+.slds-chat-message__meta{
+		display: flex;
+		gap: 5px;
+		margin: 0;
+}
+
+.message-time{
+		color: rgba(119, 119, 119, 1);
+		font-weight: 400;
+		font-size: 10px;
+		margin-top: 5px;
+}
+.slds-card__header{
+		background-color: #f3f3f3;
+		color: #000;
+		padding: 15px;
+		flex: 0 0 auto;
+		position: sticky; 
+		top: 0;
+		z-index: 1; 
+}
+.slds-card__header-title{
+		font-size: 22px;
+		font-weight:500;
+}
+.footer-area{
+
+		background-color: rgba(249, 249, 249, 1);
+		display: flex;
+		align-items: center;
+		flex: 0 0 auto;
+		padding: 0.3rem;
+		bottom: 0;
+		z-index: 1;
+		justify-content: space-between;
+    	position: relative;
+    	flex-wrap: nowrap;
+}
+
+.icon-input{
+		background-color: white;
+		display: flex;
+		border-radius: 6px;
+		padding: 0.2rem 0 0.2rem 0;
+		width: 100%;
+}
+
+.chat-input{
+		margin-top: -18px;
+		width: 100%;
+		left: 0;
+		min-height: 15px;
+		outline: none !important;
+    	border:none;
+}
+
+.chat-input:focus{
+	border: none;
+    overflow: auto;
+    outline: none;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+}
+
+.error-message {
+    color: red;
+    margin-top: 5px;
+    font-size: 0.6rem;
+}
+
+
+.slds-input{
+		float: right;
+		margin-bottom: 1.5rem;
+
+}
+
+.chat-input .slds-input{
+		background-color: white;
+}
+
+
+.input-wrapper {
+		flex: 1;
+		margin: 0 8px;
+}
+
+.icon-wrapper {
+		margin-left: 0.5rem;
+		--slds-c-icon-color-foreground: rgba(0, 161, 224, 1);
+		--slds-c-icon-color-background: transparent;
+		display: flex;
+		align-items: center;
+		margin: 0 8px;
+		cursor: pointer;
+		position: relative;
+}
+
+.sms-wrapper {
+		display: flex;
+		align-items: center;
+}
+
+.sms-icon {
+		margin-right: 4px; 
+		color: rgba(0, 161, 224, 1);
+		--slds-c-icon-color-foreground: rgba(0, 161, 224, 1);
+		--slds-c-icon-color-background: transparent;
+		cursor: pointer;
+}
+
+.whatsApp-icon{
+		height: 22px;
+    	width: 25px;
+    	margin-right: 6px;
+    	cursor: pointer;
+}
+
+.whatsApp-icon-meta{
+		height: 20px;
+		width: 20px;
+		padding: 3px;
+		margin-top: 2.5px;
+}
+
+.whatsApp-option-icon{
+		height: 22px;
+		width: 20px;
+		cursor: pointer;
+}
+
+.sms-option-icon{
+		border-radius: 4px;
+		height: 22px;
+		width: 20px;
+		cursor: pointer;
+}
+
+.send-icon{
+		--slds-c-icon-color-foreground-default: rgba(0, 161, 224, 1);
+		--slds-c-icon-color-background: transparent;
+		cursor: pointer;
+}
+
+.disabled-icon {
+	--slds-c-icon-color-foreground-default: rgb(193, 193, 193);
+    pointer-events: none;
+    opacity: 1;
+}
+
+.error-message {
+    color: red;
+    margin-top: 5px;
+    font-size: 0.9rem;
+}
+
+.scheduled-icon{
+		--slds-c-icon-color-foreground-default: #000;
+}
+.slds-chat{
+		flex: 1 1 auto;
+		overflow-y: auto;
+}
+
+.dropdown {
+		position: absolute;
+		margin-bottom: 180px;
+		right: 22%;
+}
+
+.dropdown-option{
+		display: flex;
+		gap: 10px;
+}
+
+.Option-text{
+		font-weight: 600;
+}
+.dropdown-content {
+		display: none;
+		position: relative;
+		min-width: 160px;
+		margin: 0 auto;
+		padding: 10px;
+		bottom: calc(100% + 10px); 
+		left: 0; 
+		background: #fff;
+		border-radius: 7px;
+		border: 1px solid rgba(0,0,0,0.15);
+		box-shadow: 0 1px 1px rgba(50,50,50,0.1);
+		cursor: pointer;
+		outline: none;
+		font-weight: bold;
+		color: #000;
+}
+
+.dropdown-content::after {
+		content: "";
+		position: absolute;
+		bottom: -10px; 
+		left: 85%;
+		margin-left: -10px; 
+		border-width: 10px 10px 0 10px; 
+		border-style: solid;
+		border-color: #e7e7e7 transparent transparent transparent;
+}
+.show {
+		display: block;
+}
+.hide {
+		display: none;
+}
+.dropdown-option {
+		padding: 12px 8px;
+		cursor: pointer;
+		color: #333;
+		font-size: 14px;
+		transition: background-color 0.3s ease;
+}
+.dropdown-option:hover {
+		background-color: #f4f4f4;
+}
+.scheduling-popup {
+	 	z-index: 2000;
+		position: absolute;
+		overflow: visible;
+		bottom: 70px;
+		left: 65%; 
+		height: auto;
+		width: 250px;
+		transform: translateX(-50%);
+		border-radius: 6px;
+		background-color: #ffffff;
+		border: 1px solid #cccccc;
+		padding: 20px;
+		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.date-picker {
+		width: 100%;
+		margin-top: 10px;
+		margin-bottom: 10px;
+}
+.time-picker {
+		width: 100%;
+		margin-top: 10px;
+		margin-bottom: 10px;
+}
+.schedule-head{
+		font-size: 16px;
+		font-weight: 500;
+		color: #000;
+}
+.scheduled-text{
+		color: #888888;
+		font-weight: 400;
+
+}
+.continue-button{
+		display: flex;
+		justify-content: center;
+		align-items: center;
+}
+
+.continue-btn{
+
+		background-color: rgba(0, 161, 224, 1);
+		color: white;
+		align-items: center;
+		text-align: center;
+		padding: 6px 6px;
+		padding-bottom: 10px;
+		border: none;
+		height: 32px;
+		width: 208px;
+		border-radius: 4px;
+		cursor: pointer;
+		font-size: 14px;
+		margin-top: 15px;
+
+}
+.continue-label{
+		color: white;
+		align-items: center;
+		text-align: center;
+}
+.continue-btn:hover{
+		background-color: rgb(0, 135, 188);   
+}
+.margin-zero{
+		margin: 0;
+}
+.dateContainer{
+		width: 100%;
+}
+.date{
+		width:fit-content;
+		margin: auto;
+		height: auto;
+		padding: 5px;
+		color: grey;
+		font-size:12px;
+}
+.reengagement-popup {
+    border: 1px solid #075E54;
+    background: #fff;
+    padding: 15px;
+    width: 80%;
+    margin: auto;
+    border-radius: 10px 10px 0px 0px;
+}
+
+.reengagement-message {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.send-template-button {
+   background: #25D366;
+    border-radius: 5px;
+    color: #000;
+    border: none;
+    padding: 10px 20px;
+    margin-top: 10px;
+}
+
+@media only screen and (max-width: 600px) {
+  
+		.dropdown-option{
+		min-width: 100px;
+		padding: 6px 1px;
+	}
+
+	.Option-text{
+		align-content: center;
+	}
+  
+	.dropdown-content {
+		width: 75%;
+		padding: 5px;
+	}
+	
+	.slds-modal__container {
+		max-height: 100vh;  
+		overflow-y: hidden;  
+		top: 10%;
+	}
+
+	.slds-modal__content {
+		overflow-x: auto;  
+		overflow-y: auto;  
+		max-height: 70vh;  
+	}
+
+	.slds-modal__content table {
+		width: 100%;       
+		min-width: 600px;  
+		table-layout: fixed;  
+	}
+	.slds-form-element__control{
+		width: 100%;
+	}
+
+	.slds-input{
+		width: 100%;
+		float: right;
+	}
+
+	.reengagement-popup {
+        width: 95%; 
+        padding: 10px; 
+    }
+
+    .send-template-button {
+        padding: 8px 16px; 
+        font-size: 14px; 
+    }
+
+	.chat-input,
+	.input-wrapper,
+	.icon-input {
+		width: 100%;
+		padding: 2px;
+	}
+
+	.slds-card__header-title,
+	.footer-area,
+	.send-icon {
+		font-size: 14px;
+	}
+	.scheduling-popup {
+			padding: 10px; 
+			left: -150%;
+			width: 600%;
+	}
+    .schedule-head, .continue-btn {
+        font-size: 10px; 
+    }
+	.schedule-head{
+		font-size: 12px;
+		text-align: center;
+	}
+    .continue-btn {
+		height: 5%;
+		width: 80%; 
+    }
+	.continue-label{
+		align-items: center;
+		text-align: center;
+		font-size: 12px;
+	}
+    .date {
+        font-size: 11px;  
+    }
+	.date-picker {
+		width: 80%;
+		height: 50px;
+		margin: auto;
+		align-content: center;
+	}
+	.time-picker {
+			margin-bottom: 5px;
+			width: 80%;
+			height: 50px;
+			margin: auto;
+			align-content: center;
+	}
+	.date{
+		width:fit-content;
+		margin: auto;
+		height: 5px;
+		color: grey;
+		font-size:10px;
+}
+
+ 
+}
+
+@media (min-width: 601px) and (max-width: 900px) {
+
+	.dropdown{
+		right: 15%;
+	}
+
+	.scheduling-popup{
+		padding: 10px 5px 10px 5px;
+		left: -150%;
+	}
+
+	.date-picker{
+		width: 85%;
+		height: 40px;
+		margin: auto;
+	}
+
+	.time-picker{
+		width: 85%;
+		height: 40px;
+		margin: auto;
+	}
+
+	.schedule-head{
+		font-size: 11px;
+		text-align: center;
+	}
+
+	.continue-btn{
+		width: 85%;
+		margin: auto;
+		height: 3%;
+		padding: 5px 5px;
+	}
+	
+    
+}
+
+@media (min-width: 901px) {
+    .dropdown{
+		left:-200%;
+	}
+	.scheduling-popup{
+		left: -200%;
+	}
+	.schedule-head{
+		text-align: center;
+	}
+
+}
