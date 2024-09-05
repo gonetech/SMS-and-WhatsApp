@@ -1,0 +1,47 @@
+<template>
+	<div if:true={isCustomButtonType}>
+			<div style="background: #FDFDFD; border-radius: 8px; border: 1px #EFEFEF solid;padding:20px;padding-top:14px;">
+					<div style="display:flex;">
+							<lightning-input style="width: 97%;" value={buttonData.text} type="text" label="Button Text" data-name="text" onchange={handleTextChange} onblur={handleOnBlur}></lightning-input>
+							<lightning-icon icon-name="utility:close" size="x-small" style="padding-left: 23px;"></lightning-icon>
+					</div>
+			</div>
+	</div>
+	<div if:true={isPhoneButtonType}>
+		<div style="background: #FDFDFD; border-radius: 8px; border: 1px #EFEFEF solid;padding:20px;padding-top:14px;">
+			<div style="display:flex;">
+				<lightning-combobox	style="width:30%;padding-right: 15px;"	name="actionType"	label="Type of Action" value="Call Phone Number"	placeholder="Select Progress" options={actionTypes}	></lightning-combobox>
+				<lightning-input style="width:97%;padding-right: 15px;" value={buttonData.text} type="text" label="Button Text" data-name="text" onchange={handleTextChange} onblur={handleOnBlur}></lightning-input>
+				<lightning-input style="width:97%;" value={buttonData.phone_number} type="text" label="Phone Number" data-name="phone_number" onchange={handleTextChange} onblur={handleOnBlur}></lightning-input>
+				<lightning-icon icon-name="utility:close" size="x-small" style="padding-left: 23px;"></lightning-icon>
+			</div>
+		</div>
+	</div>
+	<div if:true={isUrlButtonType}>
+		<div style="background: #FDFDFD; border-radius: 8px; border: 1px #EFEFEF solid;padding:20px;padding-top:14px;">
+			<div style="display:flex;">
+				<lightning-combobox 	style="width:30%;padding-right: 15px;"	name="actionType" label="Type of Action" value="Visit website"	placeholder="Select Progress" options={actionTypes}	></lightning-combobox>
+				<lightning-input style="width:97%;padding-right: 15px;" value={buttonData.text} type="text" label="Button Text" data-name="text" onchange={handleTextChange} onblur={handleOnBlur}></lightning-input>
+				<lightning-input style="width:97%;" value={buttonData.url} type="text" label="URL" data-name="url" onchange={handleTextChange} onblur={handleOnBlur}></lightning-input>
+				<lightning-icon icon-name="utility:close" size="x-small" style="padding-left: 23px;"></lightning-icon>
+			</div>
+		</div>
+	</div>
+	<div if:true={isCopyCodeButtonType}>
+		<div style="background: #FDFDFD; border-radius: 8px; border: 1px #EFEFEF solid;padding:20px;padding-top:14px;">
+			<div style="display:flex;">
+				<lightning-combobox
+														style="width:30%;padding-right: 15px;"
+														name="actionType"
+														label="Type of Action"
+														value="Copy offer code"
+														placeholder="Select Progress"
+														options={actionTypes}
+														></lightning-combobox>
+				<lightning-input style="width:97%;padding-right: 15px;" value={buttonData.text} type="text" label="Button Text" data-name="text" onchange={handleTextChange} onblur={handleOnBlur}></lightning-input>
+				<lightning-input style="width:97%;" value={buttonData.example} type="text" label="Code" data-name="example" onchange={handleTextChange} onblur={handleOnBlur}></lightning-input>
+				<lightning-icon icon-name="utility:close" size="x-small" style="padding-left: 23px;"></lightning-icon>
+			</div>
+		</div>
+	</div>
+</template>

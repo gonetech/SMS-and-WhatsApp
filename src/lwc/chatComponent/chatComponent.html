@@ -1,0 +1,324 @@
+<template>
+		<div class="custom-card slds-card">
+				<template if:true={isPermissionError}>
+						<div class="slds-p-around_medium">
+								You do not have the required permissions to access this feature.
+						</div>
+				</template>
+				<template if:false={isPermissionError}>
+						<div class="slds-card__header margin-zero">
+								<div class="slds-media">
+										<div class="slds-media__figure">
+										</div>
+										<div class="slds-media__body">
+												<h2 class="slds-card__header-title">{contactName}</h2>
+										</div>
+								</div>
+						</div>
+						<lightning-spinner alternative-text="Loading" size="small" variant="brand" if:true={isSpinner}></lightning-spinner>
+						<div class="slds-card__body margin-zero">
+								<div class="scrollable-container" onscroll={handleScroll} style={backgroundImageStyle}>
+										<template if:true={showTemplateModal}>
+												<section role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="modal-heading-01" class="slds-modal slds-fade-in-open slds-modal_large">   
+														<div class="slds-modal__container">
+																<header class="slds-modal__header">
+																		<button class="slds-button slds-button_icon slds-modal__close" onclick={closeModal}>
+																				<lightning-icon icon-name="utility:close" alternative-text="Close" size="medium" variant="inverse"></lightning-icon>
+																		</button>
+																		<h2 class="slds-modal__title">{label.SELECT_TEMPLATE_LABEL}</h2>
+																</header>
+																<div class="slds-modal__content slds-p-around_medium">
+																		<div class="slds-form-element slds-p-bottom_small">
+																				<div class="slds-form-element__control">
+																						<input type="text" id="templateSearch" class="slds-input slds-size_1-of-3" placeholder="Search Template Name" oninput={handleSearch}>
+																				</div>
+																		</div>
+																		<table class="slds-table slds-table_bordered slds-table_cell-buffer">
+																				<thead>
+																						<tr class="slds-line-height_reset">
+																								<th scope="col" class="slds-text-title_caps" style="width: 30%;">{label.NAME_LABEL}</th>
+																								<th scope="col" class="slds-text-title_caps" style="width: 45%;">{label.MESSAGE_BODY_LABEL}</th>
+																								<th scope="col" class="slds-text-title_caps" style="width: 25%;">{label.CHANNEL_LABEL}</th>
+																						</tr>
+																				</thead>
+																				<tbody>
+																						<template for:each={filteredTemplates} for:item="template">
+																								<tr key={template.Id} onclick={handleRowClick} data-id={template.Id} class="slds-hint-parent">
+																										<td data-label="Name" class="slds-truncate">{template.connectsocial__Template_Name__c}</td>
+																										<td data-label="Message Body" class="slds-truncate slds-truncate-wrap">{template.connectsocial__Body__c}</td>
+																										<td data-label="Channel" class="slds-truncate">{template.connectsocial__Channel__c}</td>
+																								</tr>
+																						</template>
+																				</tbody>
+																		</table>
+																</div>
+																<footer class="slds-modal__footer">             
+																</footer>
+														</div>
+												</section>
+												<div class="slds-backdrop slds-backdrop_open"></div>
+										</template>
+										<template if:true={showMediaUrlModal}>
+												<section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open">
+														<div class="slds-modal__container">
+																<header class="slds-modal__header">
+																		<button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeMediaUrlModal}>
+																				<lightning-icon icon-name="utility:close" alternative-text="close" size="small"></lightning-icon>
+																				<span class="slds-assistive-text">{label.CLOSE_LABEL}</span>
+																		</button>
+																		<h2 class="slds-text-heading_medium">{label.ENTER_MEDIA_URL_LABEL}</h2>
+																</header>
+																<div class="slds-modal__content slds-p-around_medium">
+																		<div if:true={isDocument}>
+																				<lightning-input label="File Name" value={fileName} onchange={handleFileNameChange}></lightning-input>
+																		</div>
+																		<lightning-input label="Media URL" value={mediaUrl} onchange={handleMediaUrlChange}></lightning-input>
+																</div>
+																<footer class="slds-modal__footer">
+																		<button class="slds-button slds-button_neutral" onclick={closeMediaUrlModal}>{label.CANCEL_LABEL}</button>
+																		<button class="slds-button slds-button_brand" onclick={handleSaveMediaUrl}>{label.SAVE_LABEL}</button>
+																</footer>
+														</div>
+												</section>
+												<div class="slds-backdrop slds-backdrop_open"></div>
+										</template>
+										<template if:true={showFieldSelectionModal}>
+												<section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open">
+														<div class="slds-modal__container">
+																<header class="slds-modal__header">
+																		<button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close">
+																				<lightning-icon icon-name="utility:close" alternative-text="close" size="small"></lightning-icon>
+																				<span class="slds-assistive-text">{label.CLOSE_LABEL}</span>
+																		</button>
+																		<h2 class="slds-text-heading_medium">{label.SELECT_PHONE_FIELD_LABEL}</h2>
+																</header>
+																<div class="slds-modal__content slds-p-around_medium">
+																		<lightning-combobox
+																												name="phoneField"
+																												label="Phone Field"
+																												value={selectedPhoneField}
+																												placeholder="Select Phone Field"
+																												options={phoneFieldOptions}
+																												onchange={handleFieldSelection}>
+																		</lightning-combobox>
+																</div>
+																<footer class="slds-modal__footer">
+																		<lightning-button variant="neutral" label="Cancel" onclick={closeModal}></lightning-button>
+																		<lightning-button variant="brand" label="Save" onclick={saveSelectedField}></lightning-button>
+																</footer>
+														</div>
+												</section>
+												<div class="slds-backdrop slds-backdrop_open"></div>
+										</template>
+										<section role="log" class="slds-chat chat-area margin-zero">
+												<h2 class="start-convo" if:false={messages}>{label.START_YOUR_CONVERSATION_LABEL}</h2>
+												<ul class="slds-chat-list">
+														<template for:each={groupedMessages} for:item="group" for:index="index">
+																<div key={group.date}>
+																		<div class="dateContainer">
+																				<div class="date">
+																						{group.date}
+																				</div>
+																		</div>
+																		<template for:each={group.messages} for:item="message" for:index="index">
+																				<li if:true={message.Incoming} key={message.Id} class="slds-chat-listitem slds-chat-listitem_inbound">
+																						<div class="slds-chat-message">
+																								<div class="slds-chat-message__body">
+																										<div class="slds-chat-message__text slds-chat-message__text_inbound">
+																												<template if:true={message.isSMS}>
+																														<span>
+																																<lightning-formatted-rich-text value={message.connectsocial__Message_Body__c}></lightning-formatted-rich-text>
+																														</span>
+																												</template>
+																												<template if:true={message.isWhatsApp}>
+																														<span>
+																																<lightning-formatted-rich-text value={message.connectsocial__Message_Body__c}></lightning-formatted-rich-text>
+																														</span>
+																												</template>
+																												<template if:true={message.isImage}>
+																														<span>
+																																<img src={message.base64ImageUrl} alt="Image" class="message-image"/>
+																														</span>
+																												</template>
+																										</div>
+																										<div class="slds-chat-message__meta" aria-label="said Andy Martinez at 5:29 PM">
+																												<template if:true={message.isSMS}>
+																														<lightning-icon icon-name="standard:sms" class="sms-icon" size="small"></lightning-icon>
+																												</template>
+																												<template if:true={message.isWhatsApp}>
+																														<img src={whatsappIconUrl} class="whatsApp-icon-meta" alt="WhatsApp Icon" />
+																												</template>
+																												<p class="message-time">{message.formattedTime}</p>
+																										</div>
+																								</div>
+																						</div>
+																				</li>
+																				<li if:true={message.Outgoing} key={message.Id} class="slds-chat-listitem slds-chat-listitem_outbound">    
+																						<template if:true={message.Scheduled}>
+																								<div class="slds-chat-message">
+																										<div class="slds-chat-message__body">
+																												<div class="slds-chat-message__text slds-chat-message__text_outbound scheduled-message">
+																														<div class="Sending" aria-label="Scheduled message">
+																																<template if:true={message.isSMS}>
+																																		<span class="scheduled-text">{label.SENDING_ON_LABEL} {message.formattedScheduledTime}</span>
+																																</template>
+																																<template if:true={message.isWhatsApp}>
+																																		<span class="scheduled-text">{label.SENDING_ON_LABEL} {message.WAScheduledTime}</span>
+																																</template>
+																														</div>
+																														<span class="scheduled-msg-body">
+																																<template if:true={message.isSMS}>
+																																		<lightning-formatted-rich-text value={message.connectsocial__Message_Body__c}></lightning-formatted-rich-text> &nbsp; &nbsp;
+																																</template>
+																																<template if:true={message.isWhatsApp}>
+																																		<lightning-formatted-rich-text value={message.connectsocial__Message_Body__c}></lightning-formatted-rich-text> &nbsp; &nbsp;
+																																</template>
+																																<lightning-icon icon-name="utility:clock" class="scheduled-icon" size="xx-small"></lightning-icon>
+																														</span>
+																												</div>
+																												<div class="slds-chat-message__meta scheduled-msg-body" aria-label="said Amber Cann at 5:23 PM">
+																														<p class="message-time">{message.formattedTime}</p>
+																														<template if:true={message.isSMS}>
+																																<lightning-icon icon-name="standard:sms" class="sms-icon" size="small"></lightning-icon>
+																														</template>
+																														<template if:true={message.isWhatsApp}>
+																																<img src={whatsappIconUrl} class="whatsApp-icon-meta" alt="WhatsApp Icon" />
+																																<template if:true={message.sent}>
+																																		<img src={sentIconURL} class="whatsApp-icon-meta" alt="WhatsApp Seen Icon" />
+																																</template>
+																																<template if:true={message.delivered}>
+																																		<img src={deliveredIconUrl} class="whatsApp-icon-meta" alt="WhatsApp Seen Icon" />
+																																</template>
+																																<template if:true={message.read}>
+																																		<img src={seenIconUrl} class="whatsApp-icon-meta" alt="WhatsApp Seen Icon" />
+																																</template>
+																														</template>
+																												</div>
+																										</div>
+																								</div>
+																						</template>
+																						<template if:false={message.Scheduled}>
+																								<div class="slds-chat-message">
+																										<div class="slds-chat-message__body">
+																												<div class="slds-chat-message__text slds-chat-message__text_outbound">
+																														<template if:true={message.isSMS}>
+																																<span>
+																																		<lightning-formatted-rich-text value={message.connectsocial__Message_Body__c}></lightning-formatted-rich-text>
+																																</span>
+																														</template>
+																														<template if:true={message.isWhatsApp}>
+																																<span>
+																																		<lightning-formatted-rich-text value={message.connectsocial__Message_Body__c}></lightning-formatted-rich-text>
+																																</span>
+																														</template>
+																												</div>
+																												<div class="slds-chat-message__meta scheduled-msg-body" aria-label="said Amber Cann at 5:23 PM">
+																														<p class="message-time">{message.formattedTime}</p>
+																														<template if:true={message.isSMS}>
+																																<lightning-icon icon-name="standard:sms" class="sms-icon" size="small"></lightning-icon>
+																																<img src={deliveredIconUrl} class="whatsApp-icon-meta" alt="WhatsApp Delivered Icon" />
+																														</template>
+																														<template if:true={message.isWhatsApp}>
+																																<img src={whatsappIconUrl} class="whatsApp-icon-meta" alt="WhatsApp Icon" />
+																																<template if:true={message.sent}>
+																																		<img src={sentIconURL} class="whatsApp-icon-meta" alt="WhatsApp Sent Icon" />
+																																</template>
+																																<template if:true={message.delivered}>
+																																		<img src={deliveredIconUrl} class="whatsApp-icon-meta" alt="WhatsApp Delivered Icon" />
+																																</template>
+																																<template if:true={message.read}>
+																																		<img src={seenIconUrl} class="whatsApp-icon-meta" alt="WhatsApp Seen Icon" />
+																																</template>
+																														</template>
+																												</div>
+																										</div>
+																								</div>
+																						</template>
+																				</li>
+																		</template>
+																</div>
+														</template>
+												</ul>
+										</section>
+										<template if:true={showReengagementPopup}>
+												<div class="reengagement-popup">
+														<div class="reengagement-message">
+																<strong>24 hours limit</strong>
+																<p>WhatsApp does not allow sending messages to a user 24 hours after they last messaged you. You can however send a template message.</p>
+																<button class="send-template-button" onclick={handleSendTemplate}>Send Template Message</button>
+														</div>
+												</div>
+										</template>
+								</div>
+						</div>
+						<div class="slds-card__footer footer-area margin-zero">
+								<div class = "icon-input">
+										<div class="icon-wrapper" onclick={showTemplates}>
+												<lightning-icon icon-name="action:follow" size="small" alternative-text="Schedule Message"></lightning-icon>
+										</div>
+										<div class="input-wrapper">
+												<lightning-textarea class="chat-input"
+																						type="text"
+																						value={messageText}
+																						placeholder="Type a message..."
+																						onchange={handleMessageInputChange}
+																						onkeydown={handleKeyPress}
+																						variant="bare">
+												</lightning-textarea>
+										</div>
+										<div class="icon-wrapper">
+												<div class="sms-icon" if:true={smsOption} onclick={toggleDropdown}>
+														<lightning-icon  icon-name="standard:sms" size="medium" alternative-text="SMS Options"></lightning-icon>
+												</div>
+												<div class="sms-icon" if:true={whatsAppOption} onclick={toggleDropdown}>
+														<img src={whatsappIconUrl} class="whatsApp-icon" alt="WhatsApp Icon" />
+												</div>
+												<div class="dropdown-trigger" onclick={toggleDropdown}>
+														<lightning-icon icon-name={dropdownIcon} class="dropdown-symbol"  size="xx-small" alternative-text="Dropdown"></lightning-icon>
+												</div>
+												<div class="dropdown" onclick={stopPropagation}>
+														<div class={dropdownClass}>
+																<div class="dropdown-option" onclick={handleOptionSelection} style="border-bottom: 0.4px solid #b3b3b3;">
+																		<img src={smsIconUrl} class="sms-option-icon" alt="WhatsApp Icon" />
+																		<h2 class="Option-text">{label.OPTION_SMS_LABEL}</h2>
+																</div>
+																<div class="dropdown-option" onclick={handleOptionSelection}>
+																		<img src={whatsappIconUrl} class="whatsApp-option-icon" alt="WhatsApp Icon" />
+																		<h2 class="Option-text">{label.OPTION_WHATSAPP_LABEL}</h2>
+																</div>
+														</div>
+												</div>
+										</div>
+								</div>
+								
+								<div class="icon-wrapper" onclick={showSchedule}>
+										<lightning-icon icon-name="standard:shift_scheduling_operation"  size="medium"  alternative-text="opne" ></lightning-icon>
+										<template if:true={showSchedulePopup}>
+										<div class="scheduling-popup" onclick={stopPropagation}>
+												<div class="schedule-head">
+														<h1>{label.SEND_THIS_MESSAGE_ON_LABEL}</h1>
+												</div>
+												<div class="date-picker">
+														<lightning-input variant="label-hidden" type="date"  value={selectedDate} min={todaysDate} onchange={handleDateChange} placeholder="Select the date"></lightning-input>
+												</div>
+												<div class="time-picker">
+														<lightning-input variant="label-hidden" type="time" value={selectedTime} onchange={handleTimeChange} placeholder="Select the time"></lightning-input>
+												</div>
+												<div class="error-message" if:true={errorMessage}>{errorMessage}</div>
+												<div class="continue-button">
+														<button  label="Continue"  class="slds-button_stretch slds-size_10-of-12 continue-btn" onclick={handleContinue}>
+																<span class="continue-label">
+																		{label.SCHEDULE_LABEL}
+																</span>
+														</button> 
+												</div>
+										</div>
+								</template>
+								</div>
+								<div class="icon-wrapper" onclick={handleSendButtonClick}>
+										<lightning-icon icon-name="utility:send" class={sendButtonClass} alternative-text="Send" size="small" ></lightning-icon>
+								</div>
+						</div>
+				</template>
+		</div>
+</template>

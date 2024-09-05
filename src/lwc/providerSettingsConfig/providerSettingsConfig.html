@@ -1,0 +1,125 @@
+<template>
+    <lightning-card title="Connect Social Settings" icon-name="standard:custom">
+        <template if:true={isPermissionError}>
+            <div class="slds-p-around_medium">
+                Only connect social admin can configure the settings.
+            </div>
+        </template>
+        <template if:false={isPermissionError}>
+            <div class="slds-p-around_medium">
+                <template if:true={providerSettingList.length}>
+                    <div class="slds-scrollable_x">
+                        <table class="slds-table slds-table_bordered slds-table_cell-buffer slds-table_striped">
+                            <thead>
+                                <tr>
+                                    <th scope="col">
+                                        <div class="slds-truncate" title="Service Provider Name">Service Provider Name</div>
+                                    </th>
+                                    <th scope="col">
+                                        <div class="slds-truncate" title="Channel">Channel</div>
+                                    </th>
+                                    <th scope="col">
+                                        <div class="slds-truncate" title="Phone Number">Active</div>
+                                    </th>
+                                    <th>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <template for:each={providerSettingList} for:item="setting">
+                                    <tr key={setting.id}>
+                                        <td>{setting.serviceProviderName}</td>
+                                        <td>{setting.channel}</td>
+                                        <td>
+																						<lightning-input if:true={setting.isActive} type="checkbox" label="Active" checked disabled variant="label-hidden"></lightning-input>
+																						<lightning-input if:false={setting.isActive} type="checkbox" label="Active" disabled variant="label-hidden"></lightning-input>
+																				</td>
+                                        <td>
+                                            <button data-id={setting.channel} class="slds-button slds-button_brand" onclick={handleRowClick}>Configure</button>
+                                        </td>
+                                    </tr>
+                                </template>
+                            </tbody>
+                        </table>
+                    </div>
+                </template>
+                <template if:false={providerSettingList.length}>
+                    <p>No provider settings found.</p>
+                </template>
+            </div>
+            <template if:true={isShowModal}>
+                <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                    <div class="slds-modal__container">
+                        <header class="slds-modal__header">
+                            <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={handleClose}>
+                                <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse" size="small"></lightning-icon>
+                                <span class="slds-assistive-text">Close</span>
+                            </button>
+                            <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">{modalHeader}</h2>
+                        </header>
+                        <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                            <lightning-layout multiple-rows="true">
+                                <lightning-layout-item size="6" padding="around-small">
+                                    <lightning-combobox
+                                        label="Channel"
+                                        value={providerSettings.channel}
+                                        placeholder="Select Channel"
+                                        options={channelOptions}
+                                        onchange={handleInputChange}
+                                        data-id="channel" read-only>
+                                    </lightning-combobox>
+                                </lightning-layout-item>
+                                <lightning-layout-item size="6" padding="around-small">
+                                    <lightning-input label="Service Provider Name" value={providerSettings.serviceProviderName} onchange={handleInputChange} data-id="serviceProviderName" read-only></lightning-input>
+                                </lightning-layout-item>
+                                <lightning-layout-item size="6" padding="around-small"> 
+                                    <lightning-input if:true={providerSettings.isActive} type="checkbox" label="Active" checked onchange={handleInputChange} data-id="isActive"></lightning-input>
+                                    <lightning-input if:false={providerSettings.isActive} type="checkbox" label="Active" onchange={handleInputChange} data-id="isActive"></lightning-input>
+                                </lightning-layout-item>
+
+                                <template if:true={isSmsChannel}>
+                                    <lightning-layout-item size="6" padding="around-small">
+                                        <lightning-input label="Account SID" value={providerSettings.accountSID} onchange={handleInputChange} data-id="accountSID" required></lightning-input>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item size="6" padding="around-small">
+                                        <lightning-input label="Auth Token" onchange={handleInputChange} data-id="authToken" required></lightning-input>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item size="6" padding="around-small">
+                                        <lightning-input label="Messaging Service SID" value={providerSettings.messagingServiceSID} onchange={handleInputChange} data-id="messagingServiceSID" required></lightning-input>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item size="6" padding="around-small">
+                                        <lightning-input label="Twilio Phone Number" value={providerSettings.twilioPhoneNumber} onchange={handleInputChange} data-id="twilioPhoneNumber" required></lightning-input>
+                                    </lightning-layout-item>   
+                                </template>
+
+                                <template if:true={isWhatsAppChannel}>
+                                    <lightning-layout-item size="6" padding="around-small">
+                                        <lightning-input label="Application ID" value={providerSettings.applicationId} onchange={handleInputChange} data-id="applicationId" required></lightning-input>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item size="6" padding="around-small">   
+                                        <lightning-input label="App Secret Key" value={providerSettings.appSecretKey} onchange={handleInputChange} data-id="appSecretKey" required></lightning-input>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item size="6" padding="around-small">
+                                        <lightning-input label="Auth Token" onchange={handleInputChange} data-id="authToken" required></lightning-input>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item size="6" padding="around-small">
+                                        <lightning-input label="Phone Number ID" value={providerSettings.phoneNumberId} onchange={handleInputChange} data-id="phoneNumberId" required></lightning-input>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item size="6" padding="around-small">
+                                        <lightning-input label="WhatsApp Business ID" value={providerSettings.whatsappBusinessId} onchange={handleInputChange} data-id="whatsappBusinessId" required></lightning-input>
+                                    </lightning-layout-item>
+                                </template>
+                            </lightning-layout>
+                        </div>
+
+                        <footer class="slds-modal__footer">
+                            <button class="slds-button slds-button_neutral" onclick={handleClose}>Cancel</button>
+                            <button class="slds-button slds-button_brand" onclick={handleSave}>Save</button>
+                        </footer>
+                    </div>
+                </section>
+                <div class="slds-backdrop slds-backdrop_open"></div>
+            </template>
+        </template>
+    </lightning-card>
+</template>
