@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
+    <labels>
+        <fullName>Cancel_label</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Cancel label</shortDescription>
+        <value>Cancel</value>
+    </labels>
+    <labels>
+        <fullName>Channel_label</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Channel label</shortDescription>
+        <value>Channel</value>
+    </labels>
+    <labels>
+        <fullName>Close_label</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Close label</shortDescription>
+        <value>Close</value>
+    </labels>
+    <labels>
+        <fullName>Continue_label</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Continue label</shortDescription>
+        <value>Continue</value>
+    </labels>
+    <labels>
+        <fullName>Enter_Media_URL_label</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Enter Media URL label</shortDescription>
+        <value>Enter Media URL</value>
+    </labels>
+    <labels>
+        <fullName>Message_Body_label</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Message Body label</shortDescription>
+        <value>Message Body</value>
+    </labels>
+    <labels>
+        <fullName>Name_label</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Name label</shortDescription>
+        <value>Name</value>
+    </labels>
+    <labels>
+        <fullName>Option_SMS_label</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Option SMS label</shortDescription>
+        <value>SMS</value>
+    </labels>
+    <labels>
+        <fullName>Option_WhatsApp_label</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Option WhatsApp label</shortDescription>
+        <value>WhatsApp</value>
+    </labels>
+    <labels>
+        <fullName>Save_label</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Save label</shortDescription>
+        <value>Save</value>
+    </labels>
+    <labels>
+        <fullName>Schedule_label</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Schedule label</shortDescription>
+        <value>Schedule</value>
+    </labels>
+    <labels>
+        <fullName>Select_Phone_Field_label</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Select Phone Field label</shortDescription>
+        <value>Select Phone Field</value>
+    </labels>
+    <labels>
+        <fullName>Select_Template_label</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Select Template label</shortDescription>
+        <value>Select Template</value>
+    </labels>
+    <labels>
+        <fullName>Send_this_message_on_label</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Send this message on label</shortDescription>
+        <value>Send this message on</value>
+    </labels>
+    <labels>
+        <fullName>Sending_on_label</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Sending on label</shortDescription>
+        <value>Sending on</value>
+    </labels>
+    <labels>
+        <fullName>Start_your_conversation_label</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Start your conversation label</shortDescription>
+        <value>Start your conversation</value>
+    </labels>
+</CustomLabels>

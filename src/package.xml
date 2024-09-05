@@ -103,6 +103,10 @@
         <name>CustomField</name>
     </types>
     <types>
+        <members>*</members>
+        <name>CustomLabel</name>
+    </types>
+    <types>
         <members>Message_Template__c</members>
         <members>Message__c</members>
         <members>Meta_Configuration__c</members>
