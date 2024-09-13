@@ -18,8 +18,7 @@ public with sharing class UpdateScheduledWhatsAppMessages implements Queueable {
 */
     public class Messages {
         public String id;
-    }
-    
+    }    
     /**
 * @description Executes the queueable job to update and send scheduled WhatsApp messages.
 * Retrieves scheduled WhatsApp messages due for delivery and sends them out.

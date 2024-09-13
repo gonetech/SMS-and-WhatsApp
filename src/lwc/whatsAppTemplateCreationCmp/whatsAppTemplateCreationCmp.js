@@ -19,10 +19,10 @@ const fields = [
 
 const FILE_SIZE_LIMITS = {
     audio: 16 * 1024 * 1024, 
-    document: 100 * 1024 * 1024, 
-    image: 5 * 1024 * 1024, 
+    document: 5 * 1024 * 1024, 
+    image: 2 * 1024 * 1024, 
     sticker: 100 * 1024, 
-    video: 16 * 1024 * 1024 
+    video: 2 * 1024 * 1024 
 };
 
 export default class WhatsAppTemplateCreationCmp extends LightningElement {

@@ -33,9 +33,9 @@ public with sharing class WhatsAppServices {
         httpReq.setMethod('POST');
         httpReq.setHeader('Content-Type', 'application/json');
         httpReq.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
-    	httpReq.setHeader('Pragma', 'no-cache');
-    	httpReq.setHeader('Expires', '0');
-    	httpReq.setHeader('X-Content-Type-Options', 'nosniff');
+        httpReq.setHeader('Pragma', 'no-cache');
+        httpReq.setHeader('Expires', '0');
+        httpReq.setHeader('X-Content-Type-Options', 'nosniff');
         String messageBody = '{'+
             +messagingProduct+ ' : "whatsapp",'+
             '    "recipient_type": "individual",'+
@@ -95,9 +95,9 @@ public with sharing class WhatsAppServices {
         req.setMethod('POST');
         req.setHeader('Content-Type', 'application/json'); 
         req.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
-    	req.setHeader('Pragma', 'no-cache');
-    	req.setHeader('Expires', '0');
-    	req.setHeader('X-Content-Type-Options', 'nosniff');
+        req.setHeader('Pragma', 'no-cache');
+        req.setHeader('Expires', '0');
+        req.setHeader('X-Content-Type-Options', 'nosniff');
         req.setBody(payload);
         Http http = new Http();
         HttpResponse res;
@@ -132,7 +132,18 @@ public with sharing class WhatsAppServices {
         }
         
         insert salesforceMessage;
-        return salesforceMessage;
+        List<connectsocial__Message__c> createdTempRec = [SELECT Id, connectsocial__Message_Body__c, connectsocial__To_Number__c, 
+                                                      connectsocial__Message_ID__c, connectsocial__Message_Type__c, 
+                                                      connectsocial__Type__c, connectsocial__Channel__c, 
+                                                      connectsocial__Delivery_Status__c, connectsocial__Outgoing__c, 
+                                                      CreatedDate 
+                                                      FROM connectsocial__Message__c 
+                                                      WHERE Id = :salesforceMessage.Id WITH SECURITY_ENFORCED LIMIT 1]; 
+        if (createdTempRec != null && !createdTempRec.isEmpty()) {
+            return createdTempRec[0]; 
+        } else {
+            return null; 
+        }
     }
     /**
 * @description Constructs the payload for a template message.
@@ -206,7 +217,7 @@ public with sharing class WhatsAppServices {
         return component;
     }
 
-	/**
+    /**
  * @description Replaces placeholders in the message text with actual field values from the record specified by the record ID.
  * 
  * @param recordId The ID of the record from which to retrieve field values.

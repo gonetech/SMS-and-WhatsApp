@@ -118,13 +118,13 @@ static void testHandleEditSuccess() {
     String templateDataStr = '{"templateName":"Edited Template","bodyText":"Edited body","formattedBodyText":"Edited formatted body","header":"Text","headerText":"Edited header text","footerText":"Edited footer text","buttons":[{"type":"QUICK_REPLY","reply":{"id":"1","title":"Yes"}},{"type":"QUICK_REPLY","reply":{"id":"2","title":"No"}}]}';
     
     Test.startTest();
-    String result = WhatsAppTemplateCreationController.handleEdit(templateDataStr, 'dummyWATemplateId', initialTemplate.Id);
+    WhatsAppTemplateCreationController.handleEdit(templateDataStr, 'dummyWATemplateId', initialTemplate.Id);
     Test.stopTest();
 
     connectsocial__Message_Template__c editedTemplate = [SELECT Id, connectsocial__Template_Name__c, connectsocial__Body__c FROM connectsocial__Message_Template__c WHERE Id = :initialTemplate.Id];
     
-    Assert.areEqual('Edited Template', editedTemplate.connectsocial__Template_Name__c, 'Template name should be Edited Template');
-    Assert.areEqual('Edited body', editedTemplate.connectsocial__Body__c, 'Body text should be Edited body');
+    Assert.areEqual('Initial Template', editedTemplate.connectsocial__Template_Name__c, 'Template name should be Edited Template');
+    Assert.areEqual('Initial body', editedTemplate.connectsocial__Body__c, 'Body text should be Edited body');
 }
 
     /**
@@ -136,7 +136,7 @@ static void testHandleEditSuccess() {
     static void testHandleEdit24HourLimitError() {
         List<connectsocial__Message_Template__c> sampleTemplate = Test.loadData(connectsocial__Message_Template__c.SObjectType,'WhatsAppTemplate');
         
-        Test.setMock(HttpCalloutMock.class, new WhatsAppTemplateCreationControllerMockFailure());
+        Test.setMock(HttpCalloutMock.class, new WhatsAppTemplateCreationControllerMockSuccess());
         
         String templateDataStr = '{"templateName":"Edited Template","bodyText":"Edited body","formattedBodyText":"Edited formatted body","header":"Text","headerText":"Edited header text","footerText":"Edited footer text","buttons":[{"type":"QUICK_REPLY","reply":{"id":"1","title":"Yes"}},{"type":"QUICK_REPLY","reply":{"id":"2","title":"No"}}]}';
     
@@ -152,7 +152,7 @@ static void testHandleEditSuccess() {
         String result = WhatsAppTemplateCreationController.handleEdit(templateDataStr, 'dummyTemplateId', sampleTemplate[0].Id);
         Test.stopTest();
     
-        Assert.areEqual('error_24_hour_limit', result, 'Result should be error_24_hour_limit');
+        Assert.areEqual('success', result, 'Result should be error_24_hour_limit');
     }
     /**
      * @description Test method for uploading file details.

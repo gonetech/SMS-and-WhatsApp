@@ -451,6 +451,10 @@
     margin-top: 10px;
 }
 
+.modal-button{
+	margin-left: 2%;
+}
+
 @media only screen and (max-width: 600px) {
   
 		.dropdown-option{
@@ -471,6 +475,53 @@
 		max-height: 100vh;  
 		overflow-y: hidden;  
 		top: 10%;
+	}
+
+	.modal__container{
+		max-height: 100vh;  
+		overflow-y: hidden;  
+	}
+	.mediaUrl__container{
+		position: absolute;
+		top: 0;
+		bottom: 0;
+		right: 0;
+		left: 0;
+		background-color: white;
+		z-index: 1000;
+	}
+
+	.media__content{
+		overflow-x: auto;  
+		overflow-y: auto;  
+		max-height: 70vh;
+		width: 100%;
+	}
+
+	.media__header{
+		font-size: 12px;
+	}
+
+	.slds-button{
+		float: right;
+		margin-right: 6%;
+	}
+
+	.media-title{
+		font-size: 14px;
+        padding: 15px;
+		font-weight: 400;
+
+	}
+	.modal__content{
+		overflow-x: auto;  
+		overflow-y: auto;  
+		max-height: 70vh; 
+	}
+	.modal__content table{
+		width: 100%;       
+		min-width: 500px;  
+		table-layout: fixed;
 	}
 
 	.slds-modal__content {
@@ -559,6 +610,27 @@
 		color: grey;
 		font-size:10px;
 }
+
+.modal__container{
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	right: 0;
+	left: 0;
+	background-color: white;
+	z-index: 100;
+	border-radius: 10px;
+}
+	.slds-button_icon{
+		padding: 10px;
+		margin-right: 2%;
+	}
+
+	.__title{
+		font-size: 16px;
+		padding: 15px;
+		font-weight: 400;
+	}
 
  
 }

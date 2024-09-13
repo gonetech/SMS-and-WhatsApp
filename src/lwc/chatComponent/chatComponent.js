@@ -21,6 +21,7 @@ import sendTextMessage from '@salesforce/apex/ChatComponentController.sendTextMe
 import constructPayload from '@salesforce/apex/WhatsAppServices.constructPayload';
 import { refreshApex } from '@salesforce/apex';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
+import FORM_FACTOR from '@salesforce/client/formFactor'
 import {subscribe,unsubscribe,onError} from 'lightning/empApi';
 import { getObjectInfo } from 'lightning/uiObjectInfoApi';
 import { label } from './constant';
@@ -172,7 +173,7 @@ export default class ChatComponent extends LightningElement {
 		@track messageText;
 		@api recordId;
 		@api phoneNumber;
-		@api objectApiName;
+		@api objectApiName = 'Account';
 		@track phoneFieldOptions = [];
 		@track selectedPhoneField;
 		@track showFieldSelectionModal = false;
@@ -199,8 +200,12 @@ export default class ChatComponent extends LightningElement {
 		phoneFieldName;
 		isDocument = false;
 		isEnterKeyPressed = false;
+		mediaUrlError = false;
+		fileNameError = false;
+		phoneFieldError = false;
 		@track fileName = '';
 		@track groupedMessages = [];
+		isMobile = false;
 		isPermissionError = false;
 
 		get dropdownClass() {
@@ -212,6 +217,8 @@ export default class ChatComponent extends LightningElement {
 		get backgroundImageStyle() {
 				return `background: linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)), url(${this.whatsAppBgURL});`;
 		}
+		
+        
 
 		@wire(hasUserPermission)
 		wiredSettings(result) {
@@ -259,8 +266,14 @@ export default class ChatComponent extends LightningElement {
 						this.handleErrorRegister();
 						this.handleSubscribe();
 						this.setDefaultDate();
+						this.handleFormFactor();
 				}
 		}
+		 handleFormFactor() {
+        if (FORM_FACTOR === "Small") {
+            this.isMobile = true;
+        } 
+    }
 		setDefaultDate() {
 				const today = new Date();
 				const year = today.getFullYear();
@@ -347,8 +360,13 @@ export default class ChatComponent extends LightningElement {
 		}
 		handleFieldSelection(event) {
 				this.selectedPhoneField = event.detail.value;
+				this.phoneFieldError = false;
 		}
 		saveSelectedField() {
+				if (!this.selectedPhoneField) {
+				this.phoneFieldError = true;
+				return;
+			}
 				savePhoneFieldName({
 						objectName: this.objectApiName,
 						phoneFieldName: this.selectedPhoneField
@@ -520,6 +538,7 @@ export default class ChatComponent extends LightningElement {
 		handleFileNameChange(event){
 				event.preventDefault();
 				this.fileName = event.target.value;
+				this.fileNameError = false;
 		}
 		@wire(getTemplates,{objectApiName: '$objectApiName',templateType:'$selectedOption'}) 
 		wiredTemplates({error, data}) {
@@ -544,6 +563,7 @@ export default class ChatComponent extends LightningElement {
 																											);
 		}
 		handleRowClick(event) {
+				this.isDocument = false;
 				const templateId = event.currentTarget.dataset.id;
 				const template = this.Templates.find(t => t.Id === templateId);
 				const templateBody = template ? template.connectsocial__Body__c : '';
@@ -565,13 +585,30 @@ export default class ChatComponent extends LightningElement {
 		}
 		handleMediaUrlChange(event) {
 				this.HeadermediaUrl = event.target.value;
+				this.mediaUrlError = false;
 		}
 		handleSaveMediaUrl() {
+			 this.mediaUrlError = false;
+			  this.fileNameError = false;	
+				 let valid = true;
+				if (!this.HeadermediaUrl) {
+					this.mediaUrlError = true; 
+					valid = false;
+				}
+				if (this.isDocument && !this.fileName) {
+					this.fileNameError = true; 
+					valid = false;
+				}
+				if (!valid) {
+					return;
+				}	
 				this.showMediaUrlModal = false;
 				this.showTemplateModal = false;
 		}
 		closeMediaUrlModal() {
 				this.showMediaUrlModal = false;
+				this.mediaUrlError = false;
+				this.fileNameError = false
 		}
 		handleSendTemplate(){
 				this.showTemplateModal = true;

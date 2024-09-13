@@ -39,7 +39,6 @@ global with sharing class WhatsAppWebhook {
         RestRequest request = RestContext.request;
         response.addHeader('Content-type', 'application/json');
         String responseString = RestContext.request.requestBody.toString();
-         System.debug('The response is ---->'+responseString);
         String responseValid = validateWhatsAppSignature(RestContext.request, responseString);
         if (responseValid == SIGNATURE_VALID_MESSAGE) {
             Map<String, Object> responseMap = (Map<String, Object>) JSON.deserializeUntyped(responseString);

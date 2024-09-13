@@ -5,20 +5,8 @@
 								You do not have the required permissions to access this feature.
 						</div>
 				</template>
-				<template if:false={isPermissionError}>
-						<div class="slds-card__header margin-zero">
-								<div class="slds-media">
-										<div class="slds-media__figure">
-										</div>
-										<div class="slds-media__body">
-												<h2 class="slds-card__header-title">{contactName}</h2>
-										</div>
-								</div>
-						</div>
-						<lightning-spinner alternative-text="Loading" size="small" variant="brand" if:true={isSpinner}></lightning-spinner>
-						<div class="slds-card__body margin-zero">
-								<div class="scrollable-container" onscroll={handleScroll} style={backgroundImageStyle}>
-										<template if:true={showTemplateModal}>
+				<template if:true={showTemplateModal}>
+					<div if:false={isMobile}>
 												<section role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="modal-heading-01" class="slds-modal slds-fade-in-open slds-modal_large">   
 														<div class="slds-modal__container">
 																<header class="slds-modal__header">
@@ -57,37 +45,125 @@
 														</div>
 												</section>
 												<div class="slds-backdrop slds-backdrop_open"></div>
+					</div>
+
+													<div if:true={isMobile}>
+														<div class="modal__container slds-card">
+																<div class="modal__header">
+																		<button class="slds-button slds-button_icon modal__close " onclick={closeModal}>
+																				<lightning-icon icon-name="utility:close" alternative-text="Close" size="small"></lightning-icon>
+																		</button>
+																		<h2 class="__title">{label.SELECT_TEMPLATE_LABEL}</h2>
+																</div>
+																<div class="modal__content slds-p-around_medium">
+																		<div class="slds-form-element slds-p-bottom_small">
+																				<div class="slds-form-element__control">
+																						<input type="text" id="templateSearch1" class="slds-input slds-size_1-of-3" placeholder="Search Template Name" oninput={handleSearch}>
+																				</div>
+																		</div>
+																		<table class="slds-table slds-table_bordered slds-table_cell-buffer">
+																				<thead>
+																						<tr class="slds-line-height_reset">
+																								<th scope="col" class="slds-text-title_caps" style="width: 30%;">{label.NAME_LABEL}</th>
+																								<th scope="col" class="slds-text-title_caps" style="width: 45%;">{label.MESSAGE_BODY_LABEL}</th>
+																								<th scope="col" class="slds-text-title_caps" style="width: 25%;">{label.CHANNEL_LABEL}</th>
+																						</tr>
+																				</thead>
+																				<tbody>
+																						<template for:each={filteredTemplates} for:item="template">
+																								<tr key={template.Id} onclick={handleRowClick} data-id={template.Id} class="slds-hint-parent">
+																										<td data-label="Name" class="slds-truncate">{template.connectsocial__Template_Name__c}</td>
+																										<td data-label="Message Body" class="slds-truncate slds-truncate-wrap">{template.connectsocial__Body__c}</td>
+																										<td data-label="Channel" class="slds-truncate">{template.connectsocial__Channel__c}</td>
+																								</tr>
+																						</template>
+																				</tbody>
+																		</table>
+																</div>
+											
+														</div>
+														</div>
 										</template>
-										<template if:true={showMediaUrlModal}>
+											<template if:true={showMediaUrlModal}>
+											<div if:false={isMobile}>
 												<section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open">
 														<div class="slds-modal__container">
 																<header class="slds-modal__header">
 																		<button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeMediaUrlModal}>
-																				<lightning-icon icon-name="utility:close" alternative-text="close" size="small"></lightning-icon>
+																				<lightning-icon icon-name="utility:close" alternative-text="close" size="small" variant="inverse"></lightning-icon>
 																				<span class="slds-assistive-text">{label.CLOSE_LABEL}</span>
 																		</button>
 																		<h2 class="slds-text-heading_medium">{label.ENTER_MEDIA_URL_LABEL}</h2>
 																</header>
 																<div class="slds-modal__content slds-p-around_medium">
 																		<div if:true={isDocument}>
-																				<lightning-input label="File Name" value={fileName} onchange={handleFileNameChange}></lightning-input>
+																				<lightning-input label="File Name" value={fileName} onchange={handleFileNameChange} required></lightning-input>
+																				<template if:true={fileNameError}>
+																					<p class="slds-text-color_error">File Name is required.</p>
+																				</template>
 																		</div>
-																		<lightning-input label="Media URL" value={mediaUrl} onchange={handleMediaUrlChange}></lightning-input>
+																		<lightning-input label="Media URL" value={mediaUrl} onchange={handleMediaUrlChange} required></lightning-input>
+																		<template if:true={mediaUrlError}>
+																			<p class="slds-text-color_error">Media URL is required.</p>
+																		</template>
 																</div>
 																<footer class="slds-modal__footer">
 																		<button class="slds-button slds-button_neutral" onclick={closeMediaUrlModal}>{label.CANCEL_LABEL}</button>
 																		<button class="slds-button slds-button_brand" onclick={handleSaveMediaUrl}>{label.SAVE_LABEL}</button>
+																		
 																</footer>
 														</div>
 												</section>
 												<div class="slds-backdrop slds-backdrop_open"></div>
+											</div>
+											<div if:true={isMobile}>
+												<div class="mediaUrl__container slds-card">
+																<div class="media__header">
+										
+																		<button class="slds-button slds-button_icon modal__close" onclick={closeMediaUrlModal}>
+																				<lightning-icon icon-name="utility:close" alternative-text="Close" size="small"></lightning-icon>
+																				<span class="slds-assistive-text">{label.CLOSE_LABEL}</span>
+																		</button>
+																		<h2 class="media-title">{label.ENTER_MEDIA_URL_LABEL}</h2>
+																</div>
+																<div class="media__content slds-p-around_medium">
+																		<div if:true={isDocument}>
+																				<lightning-input label="File Name" value={fileName} onchange={handleFileNameChange} required></lightning-input>
+																				<template if:true={fileNameError}>
+																					<p class="slds-text-color_error">File Name is required.</p>
+																				</template>
+																		</div>
+																		<lightning-input label="Media URL" value={mediaUrl} onchange={handleMediaUrlChange} required></lightning-input>
+																		<template if:true={mediaUrlError}>
+																			<p class="slds-text-color_error">Media URL is required.</p>
+																		</template>
+																</div>
+																<div class="media__footer">
+																		<button class="slds-button slds-button_neutral" onclick={closeMediaUrlModal}>{label.CANCEL_LABEL}</button>
+																		<button class="slds-button slds-button_brand" onclick={handleSaveMediaUrl}>{label.SAVE_LABEL}</button>
+																</div>
+														</div>
+											</div>
 										</template>
+				<template if:false={isPermissionError}>
+						<div class="slds-card__header margin-zero">
+								<div class="slds-media">
+										<div class="slds-media__figure">
+										</div>
+										<div class="slds-media__body">
+												<h2 class="slds-card__header-title">{contactName}</h2>
+										</div>
+								</div>
+						</div>
+						<lightning-spinner alternative-text="Loading" size="small" variant="brand" if:true={isSpinner}></lightning-spinner>
+						<div class="slds-card__body margin-zero">
+								<div class="scrollable-container" style={backgroundImageStyle}>
 										<template if:true={showFieldSelectionModal}>
 												<section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open">
 														<div class="slds-modal__container">
 																<header class="slds-modal__header">
 																		<button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close">
-																				<lightning-icon icon-name="utility:close" alternative-text="close" size="small"></lightning-icon>
+																				<lightning-icon icon-name="utility:close" alternative-text="close" size="small" variant="inverse"></lightning-icon>
 																				<span class="slds-assistive-text">{label.CLOSE_LABEL}</span>
 																		</button>
 																		<h2 class="slds-text-heading_medium">{label.SELECT_PHONE_FIELD_LABEL}</h2>
@@ -100,11 +176,15 @@
 																												placeholder="Select Phone Field"
 																												options={phoneFieldOptions}
 																												onchange={handleFieldSelection}>
+																												required
 																		</lightning-combobox>
+																		<template if:true={phoneFieldError}>
+																			<p class="slds-text-color_error">Please select a Phone Field.</p>
+																		</template>
 																</div>
 																<footer class="slds-modal__footer">
-																		<lightning-button variant="neutral" label="Cancel" onclick={closeModal}></lightning-button>
-																		<lightning-button variant="brand" label="Save" onclick={saveSelectedField}></lightning-button>
+																		<lightning-button class="modal-button" variant="neutral" label="Cancel" onclick={closeModal}></lightning-button>
+																		<lightning-button class="modal-button" variant="brand" label="Save" onclick={saveSelectedField}></lightning-button>
 																</footer>
 														</div>
 												</section>

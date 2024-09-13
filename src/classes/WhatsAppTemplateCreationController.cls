@@ -3,6 +3,7 @@
  * @class WhatsAppTemplateCreationController
  * @with sharing
  */
+@SuppressWarnings('PMD.ApexSuggestUsingNamedCred')
 public with sharing class WhatsAppTemplateCreationController {
      /**
      * @description Retrieves all available SObjects and their labels.
@@ -70,8 +71,7 @@ public with sharing class WhatsAppTemplateCreationController {
         if (!CommonUtil.hasFLS(msgtemp)) {
         	throw new AuraHandledException('You do not have the necessary field permissions to create connectsocial__Message_Template__c records.');
     	}
-        Map<String, Object> requestBody = new Map<String, Object>();
-        
+        Map<String, Object> requestBody = new Map<String, Object>();       
         if((String) results.get('channel') == 'WhatsApp'){
             requestBody.put('name', msgtemp.connectsocial__Template_API_Name__c);
             requestBody.put('category','Marketing');
@@ -154,8 +154,7 @@ public with sharing class WhatsAppTemplateCreationController {
             }
         } else {
             insert msgtemp;
-        }
-        
+        }        
     }
 	/**
  * @description Uploads file details to the Facebook Graph API.
@@ -233,7 +232,7 @@ public with sharing class WhatsAppTemplateCreationController {
         connectsocial__Message_Template__c tempRecord = [SELECT Id, LastModifiedDate FROM connectsocial__Message_Template__c WHERE Id = :templateId With SECURITY_ENFORCED LIMIT 1];
         DateTime now = DateTime.now();
         DateTime lastModified = tempRecord.LastModifiedDate;
-        if (lastModified.addHours(24) < now) {
+        if (lastModified.addHours(24) > now) {
             return 'error_24_hour_limit';
         }
         Map<String, Object> results = (Map<String, Object>) JSON.deserializeUntyped(templateDataStr);
@@ -279,8 +278,7 @@ public with sharing class WhatsAppTemplateCreationController {
         httpRequest.setHeader('Pragma', 'no-cache');
         httpRequest.setHeader('Expires', '0');
         httpRequest.setHeader('X-Content-Type-Options', 'nosniff');
-        httpRequest.setBody(JSON.serialize(requestBody));
-    
+        httpRequest.setBody(JSON.serialize(requestBody));    
         Http http = new Http();
         HttpResponse response = http.send(httpRequest);
         if (response.getStatusCode() == 200) {
@@ -305,7 +303,6 @@ public with sharing class WhatsAppTemplateCreationController {
         } catch (QueryException e) {
         return 'error_no_record_found';
     } catch (Exception e) {
-        System.debug('Exception occurred: ' + e.getMessage());
     	return 'error_exception_occurred';
     }
         

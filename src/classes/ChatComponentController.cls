@@ -398,7 +398,7 @@ public with sharing class ChatComponentController {
                                                                     WITH SECURITY_ENFORCED LIMIT 100];
             return allTemplate;
         } catch (Exception e) {
-            throw new AuraHandledException('Error creating message record: ' + e.getMessage());
+            throw new AuraHandledException('Error Fetching Message Template Records ' + e.getMessage());
         } 
     }
 }
